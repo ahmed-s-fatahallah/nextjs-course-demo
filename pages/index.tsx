@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 import MeetupList from "../components/meetups/MeetupList";
-import { title } from "process";
+
+import Head from "next/head";
 
 interface HomePageProps {
   meetups: {
@@ -13,7 +14,18 @@ interface HomePageProps {
 }
 
 function HomePage(props: HomePageProps) {
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Browse a huge list of highly active React meetups!"
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />
+    </>
+  );
 }
 
 export async function getStaticProps() {

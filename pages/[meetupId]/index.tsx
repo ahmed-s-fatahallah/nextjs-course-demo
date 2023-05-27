@@ -1,8 +1,8 @@
 import { MongoClient, ObjectId } from "mongodb";
+import { GetStaticPropsContext } from "next";
+import Head from "next/head";
 
 import MeetupDetail from "../../components/meetups/MeetupDetail";
-
-import { GetStaticPropsContext } from "next";
 
 interface MeetupDetailsProps {
   meetupData: {
@@ -15,12 +15,18 @@ interface MeetupDetailsProps {
 
 function meetupDetails(props: MeetupDetailsProps) {
   return (
-    <MeetupDetail
-      image={props.meetupData.image}
-      title={props.meetupData.title}
-      address={props.meetupData.address}
-      description={props.meetupData.description}
-    />
+    <>
+      <Head>
+        <title>{props.meetupData.title}</title>
+        <meta name="description" content={props.meetupData.description} />
+      </Head>
+      <MeetupDetail
+        image={props.meetupData.image}
+        title={props.meetupData.title}
+        address={props.meetupData.address}
+        description={props.meetupData.description}
+      />
+    </>
   );
 }
 
