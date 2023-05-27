@@ -25,7 +25,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const meetupsCollection = db.collection("meetups");
 
       const result = await meetupsCollection.insertOne(data);
-      console.log(result);
 
       client.close();
 
