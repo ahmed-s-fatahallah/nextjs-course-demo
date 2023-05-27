@@ -1,7 +1,8 @@
+import { MongoClient } from "mongodb";
+import { NextApiRequest, NextApiResponse } from "next";
+
 // /api/mew-meetup
 // POST /api/new-meetup
-
-import { NextApiRequest, NextApiResponse } from "next";
 
 interface RequestBody {
   title: string;
@@ -12,9 +13,26 @@ interface RequestBody {
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const data = await req.body;
+    try {
+      const data = req.body as unknown as RequestBody;
 
-    const { title, image, address, description } = data;
+      const client = await MongoClient.connect(
+        "mongodb+srv://ahmed:l0gmeinn0w@cluster0.ccdcti6.mongodb.net/meetups?retryWrites=true&w=majority"
+      );
+
+      const db = client.db();
+
+      const meetupsCollection = db.collection("meetups");
+
+      const result = await meetupsCollection.insertOne(data);
+      console.log(result);
+
+      client.close();
+
+      res.status(201).json({ message: "meetup Inserted" });
+    } catch (err: unknown) {
+      if (err instanceof Error) console.log(err.message);
+    }
   }
 }
 
